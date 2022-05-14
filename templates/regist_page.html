@@ -1,0 +1,21 @@
+{% extends "base_temp.html" %}
+
+{% block content %}
+<div class="row bg-light">
+      <form class="form-signup" action="" method="post" novalidate>
+            {{ context.form.hidden_tag() }}
+            <img class="mb-4" src="{{ url_for('static', filename='img/logo.png') }}" alt="" width="72" height="72">
+            <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+            {{ context.form.login(type="login", class="form-control", placeholder="Логин") }}
+
+            {{ context.form.name(type="name", class="form-control", placeholder="Имя") }}
+            {{ context.form.lastname(type="lastname", class="form-control", placeholder="Фамилия") }}
+
+            {{ context.form.about(type="about", class="md-textarea form-control", rows="3") }}
+
+            {{ context.form.password(type="password", class="password", class="form-control", placeholder="Пароль") }}
+            {{ context.form.password_again(type="password", class="password_again", class="form-control", placeholder="Повторите пароль") }}
+            {{ context.form.submit(class="btn btn-lg btn-primary btn-block", type="submit") }}
+      </form>
+</div>
+{% endblock %}
