@@ -1,0 +1,78 @@
+{% extends "base_temp.html" %}
+
+{% block content %}
+<div class="row bg-light">
+    {% if context.question %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h2>{{ context.question.title }}</h2>
+                    <p>{{ context.question.content }}</p>
+                </div>
+
+                <div class="col-6 col-md-4">
+                    <ul class="list-group list-group-light">
+                          <li class="list-group-item">
+                              Категория: {{ context.question.category.name }}
+                          </li>
+                          <li class="list-group-item">
+                              Кол-во ответов:
+                              {{ context.db_sess.query(context.Comment).filter(context.Comment.que_id == context.question.id).count() }}
+                          </li>
+                          <li class="list-group-item">
+                              Создатель: {{ context.question.user.name }}
+                          </li>
+                          <li class="list-group-item">
+                              Дата создания: {{ context.question.get_data() }}
+                          </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <form class="form-comment" action="" method="post" novalidate>
+                        {{ context.form.hidden_tag() }}
+
+                        <h5>Оставить комментарий:</h5>
+
+                        {{ context.form.comment_text(class="form-control", rows="4") }}
+                        {{ context.form.submit(class="btn btn-primary", type="submit") }}
+                    </form>
+                </div>
+
+                <div class="col-6 col-md-4">
+                    nothing
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    {% if context.question.comm %}
+                        <p>Комментарии:</p>
+                        <ul class="list-group list-group-light">
+                            {% for item in context.question.comm %}
+                                <li class="list-group-item">
+                                    {{ item.content }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Комментарии отсутствуют</p>
+                    {% endif %}
+                </div>
+
+                <div class="col-6 col-md-4">
+                    nothing
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <h2>Данного вопроса не существует</h2>
+    {% endif %}
+</div>
+{% endblock %}

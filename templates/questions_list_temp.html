@@ -69,17 +69,4 @@
     {% endif %}
 </div>
 
-<!--<div class="row bg-light">-->
-<!--    <div class="col-12 col-md-8">-->
-<!--        <div class="btn-group">-->
-<!--            {% if context.page_number<=1 %}-->
-<!--                <a class="btn btn-primary disabled" href="{{ context.href }}?page={{ context.page_number }}&{{ context.additional_arg }}" role="button"><</a>-->
-<!--            {% else %}-->
-<!--                <a class="btn btn-primary" href="{{ context.href }}?page={{ context.page_number-1 }}&{{ context.additional_arg }}" role="button"><</a>-->
-<!--            {% endif %}-->
-<!--            <a class="btn btn-primary" href="{{ context.href }}?page={{ context.page_number }}&{{ context.additional_arg }}" role="button">{{ context.page_number }}</a>-->
-<!--            <a class="btn btn-primary" href="{{ context.href }}?page={{ context.page_number+1 }}&{{ context.additional_arg }}" role="button">></a>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 {% endblock %}

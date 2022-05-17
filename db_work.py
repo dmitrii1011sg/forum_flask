@@ -1,6 +1,7 @@
 from sqlalchemy import and_
 
 from data.category import Category
+from data.comments import Comment
 from data.question import Question
 from data.users import User
 from tools import created_diaposon
@@ -24,6 +25,13 @@ class DataBaseTool:
                        user_id=user_id,
                        category_id=self.db_sess.query(Category).filter(Category.name == category).first().id)
         self.db_sess.add(que)
+        self.db_sess.commit()
+
+    def create_comment(self, user_id, question_id, content):
+        comment = Comment(content=content,
+                          user_id=user_id,
+                          que_id=question_id)
+        self.db_sess.add(comment)
         self.db_sess.commit()
 
     def create_user(self, name, lastname, login, about, password) -> bool:
@@ -51,6 +59,10 @@ class DataBaseTool:
         if filter_id:
             items_query = items_query.order_by(Question.id.desc())
         return items_query
+
+    def get_questions_id(self, id):
+        question = self.db_sess.query(Question).filter(Question.id == id).first()
+        return question
 
     def get_diapason_query(self, query, num_page, col_el_page):
         diapason = (num_page-1)*col_el_page, (num_page-1)*col_el_page+col_el_page

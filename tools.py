@@ -9,6 +9,7 @@ def create_context(title_page='None', href='/'):
         'form': False,
         'form_search': False,
         'items_que': False,
+        'question': False,
         'Comment': Comment,
         'randint': random.randint,
         'href': href

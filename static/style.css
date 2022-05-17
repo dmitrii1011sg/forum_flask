@@ -12,3 +12,13 @@
 .navbar .btn-login{
     margin-left: 32px;
 }
+
+.form-search input[type="text search-line"] {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.form-search input[type="submit"] {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}

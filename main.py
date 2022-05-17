@@ -11,6 +11,7 @@ from data.question import Question
 from data.category import Category
 from data.users import User
 from db_work import DataBaseTool
+from flask_forms.comment_form import CommentForm
 from flask_forms.create_question_form import QuestionForm
 from flask_forms.login_form import LoginUserForm
 from flask_forms.register_form import RegisterForm
@@ -163,15 +164,6 @@ def search_page():
     category = request.args.get('category')
     items_que = data_tool.get_questions_category(category)
     items_que = data_tool.get_diapason_query(items_que, int(page_number), 2)
-    # db_sess = db_session.create_session()
-    # col_que = db_sess.query(Question).join(Category).filter(Category.name == category).count()
-    # diapason = created_diaposon(int(page_number), col_que, 20)
-    #
-    # items_que = db_sess.query(Question).join(Category).filter(
-    #     and_(Question.id > diapason[0],
-    #          Question.id <= diapason[1],
-    #          Category.name == category
-    #          )).order_by(Question.id.desc())
 
     context['form_search'] = form_search
     context['page_number'] = int(page_number)
@@ -182,6 +174,31 @@ def search_page():
         return render_template('questions_list_temp.html', context=context)
 
     return render_template('questions_list_temp.html', context=context)
+
+
+@app.route('/question', methods=['GET', 'POST'])
+def question_page():
+    id = request.args.get('id')
+    data_tool = DataBaseTool(db_session.create_session())  # tools for db
+    context = create_context(title_page=f'Вопрос №{id}', href='/question')
+
+    form_search = SearchForm()
+    if form_search.validate_on_submit() and form_search.category_search.data:
+        return redirect(f'/search?category={form_search.category_search.data}&page=1')
+
+    form = CommentForm()  # create questions form
+
+    if form.validate_on_submit():  # form validate on submit
+        data_tool.create_comment(content=form.comment_text.data,
+                                 user_id=flask_login.current_user.id,
+                                 question_id=id)
+        return redirect(f'/question?id={id}')
+
+    context['form_search'] = form_search
+    context['form'] = form
+    context['question'] = data_tool.get_questions_id(id)
+    context['db_sess'] = db_session.create_session()
+    return render_template('questions_page_temp.html', context=context)
 
 
 def main():
