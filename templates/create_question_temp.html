@@ -1,0 +1,18 @@
+{% extends "base_temp.html" %}
+
+{% block content %}
+<div class="row bg-light">
+      <form class="form-create-question" action="" method="post" novalidate>
+            {{ context.form.hidden_tag() }}
+            <img class="mb-4" src="{{ url_for('static', filename='img/logo.png') }}" alt="" width="72" height="72">
+            <h1 class="h3 mb-3 font-weight-normal">Создание вопроса</h1>
+            {{ context.form.title_question(type="title_question", class="form-control", placeholder="Заголовок вопроса") }}
+
+            {{ context.form.text_question(type="text_question", class="md-textarea form-control", rows="3", placeholder="Содержание вопроса") }}
+
+            {{ context.form.category_question(type="tags_question", class="form-control", placeholder="Теги (через пробел)") }}
+
+            {{ context.form.submit(class="btn btn-lg btn-primary btn-block", type="submit") }}
+      </form>
+</div>
+{% endblock %}

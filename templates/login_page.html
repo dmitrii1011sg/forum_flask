@@ -6,9 +6,9 @@
             {{ context.form.hidden_tag() }}
             <img class="mb-4" src="{{ url_for('static', filename='img/logo.png') }}" alt="" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal">Вход</h1>
-<!--            <input type="login" id="inputLogin" class="form-control" placeholder="Логин" required autofocus>-->
+
             {{ context.form.login(type="login", class="form-control", placeholder="Логин") }}
-<!--            <input type="password" id="inputPassword" class="form-control" placeholder="Пароль" required>-->
+
             {{ context.form.password(type="password", class="form-control", placeholder="Пароль") }}
             <div class="checkbox mb-3">
                   <label>

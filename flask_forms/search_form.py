@@ -4,5 +4,5 @@ from wtforms.validators import DataRequired
 
 
 class SearchForm(FlaskForm):
-    tag_search = StringField('Тег')
-    submit = SubmitField('Найти по Тегу')
+    category_search = StringField('Категория')
+    submit = SubmitField('Поиск')

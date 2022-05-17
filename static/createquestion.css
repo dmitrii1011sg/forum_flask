@@ -1,0 +1,33 @@
+.form-create-question{
+  width: 70%;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-create-question .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.form-create-question input[type="title_question"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-create-question textarea[type="text_question"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.form-create-question input[type="tags_question"] {
+  margin-bottom: 10px;
+}
+
+.form-create-question button[type="submit"] {
+  margin: 10px;
+}
