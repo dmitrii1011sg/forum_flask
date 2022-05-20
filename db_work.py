@@ -4,7 +4,10 @@ from data.category import Category
 from data.comments import Comment
 from data.question import Question
 from data.users import User
-from tools import created_diaposon
+
+
+def created_diaposon(num_page, col_el, col_el_page):
+    return col_el - (col_el_page * num_page), col_el - (col_el_page * (num_page - 1))
 
 
 class DataBaseTool:
@@ -64,10 +67,28 @@ class DataBaseTool:
         question = self.db_sess.query(Question).filter(Question.id == id).first()
         return question
 
+    def get_category_id(self, id):
+        category = self.db_sess.query(Category).filter(Category.id == id).first()
+        return category
+
     def get_diapason_query(self, query, num_page, col_el_page):
-        diapason = (num_page-1)*col_el_page, (num_page-1)*col_el_page+col_el_page
+        diapason = (num_page - 1) * col_el_page, (num_page - 1) * col_el_page + col_el_page
         question_list = list()
         for ind, el in enumerate(query):
             if diapason[0] <= ind < diapason[1]:
                 question_list.append(el)
         return question_list
+
+    def get_user_id(self, id):
+        return self.db_sess.query(User).filter(User.id == id).first()
+
+    def get_list_category_popularity(self) -> list:
+        list_info_category = list()
+        for category in self.db_sess.query(Category):
+            num = self.db_sess.query(Question).join(Category).filter(Category.name == category.name).count()
+            list_info_category.append((num, category.id))
+        sorted_list = sorted(list_info_category, reverse=True)[:3]
+        return sorted_list
+
+
+

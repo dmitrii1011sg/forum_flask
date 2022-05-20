@@ -1,9 +1,14 @@
 import random
 
+from data import db_session
 from data.comments import Comment
+from db_work import DataBaseTool
 
 
 def create_context(title_page='None', href='/'):
+    data_tool = DataBaseTool(db_session.create_session())
+    arr = data_tool.get_list_category_popularity()
+    category_popular = [data_tool.get_category_id(el[1]) for el in arr]
     return {
         'title_page': title_page,
         'form': False,
@@ -12,12 +17,12 @@ def create_context(title_page='None', href='/'):
         'question': False,
         'Comment': Comment,
         'randint': random.randint,
-        'href': href
+        'href': href,
+        'category_popular': category_popular
     }
 
 
-def created_diaposon(num_page, col_el, col_el_page):
-    return col_el - (col_el_page * num_page), col_el - (col_el_page * (num_page - 1))
+
 
 
 

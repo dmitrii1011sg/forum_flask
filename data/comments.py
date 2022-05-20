@@ -18,3 +18,6 @@ class Comment(SqlAlchemyBase):
     user = orm.relationship('User', back_populates="comm")
     que = orm.relationship('Question', back_populates="comm")
 
+    def get_data(self):
+        return self.created_date.strftime("%m/%d/%Y")
+

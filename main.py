@@ -10,13 +10,13 @@ from data import db_session
 from data.question import Question
 from data.category import Category
 from data.users import User
-from db_work import DataBaseTool
+from db_work import DataBaseTool, created_diaposon
 from flask_forms.comment_form import CommentForm
 from flask_forms.create_question_form import QuestionForm
 from flask_forms.login_form import LoginUserForm
 from flask_forms.register_form import RegisterForm
 from flask_forms.search_form import SearchForm
-from tools import create_context, created_diaposon
+from tools import create_context
 
 load_dotenv()
 
@@ -49,6 +49,7 @@ def index():
     db_sess = db_session.create_session()
     col_que = db_sess.query(Question).count()
     diapason = created_diaposon(page_number, col_que, 20)
+    #data_tool.get_diapason_query(items_que, int(page_number), 20)
 
     items_que = db_sess.query(Question).filter(
         and_(Question.id > diapason[0],
@@ -58,6 +59,7 @@ def index():
     context['form_search'] = form_search
     context['page_number'] = page_number
     context['db_sess'] = db_sess
+    context['title_list_question'] = 'Последние вопросы:'
     if items_que:
         context['items_que'] = items_que
         return render_template('questions_list_temp.html', context=context)
@@ -85,6 +87,7 @@ def login_user():
         if user:
             flask_login.login_user(user, remember=form.remember_me.data)
             return redirect("/?page=1")
+        context['message'] = 'Вы неправильно ввели  логин или пароль'
         return render_template('login_page.html', context=context)
     return render_template('login_page.html', context=context)
 
@@ -107,12 +110,14 @@ def regist_user():
 
     if form.validate_on_submit():   # form validate on submit
         if form.password.data != form.password_again.data:  # validate password
+            context['message'] = 'Пароли не совпадают'
             return render_template('regist_page.html', context=context)
         user_info = data_tool.create_user(name=form.name.data, lastname=form.lastname.data,
                                           login=form.login.data, about=form.about.data, password=form.password.data)
         if user_info:
             return redirect("/login")
         else:
+            context['message'] = f'Пользователь с логином {form.login.data}, уже существует'
             return render_template('regist_page.html', context=context)
     return render_template('regist_page.html', context=context)
 
@@ -163,12 +168,13 @@ def search_page():
     page_number = request.args.get('page')
     category = request.args.get('category')
     items_que = data_tool.get_questions_category(category)
-    items_que = data_tool.get_diapason_query(items_que, int(page_number), 2)
+    items_que = data_tool.get_diapason_query(items_que, int(page_number), 20)
 
     context['form_search'] = form_search
     context['page_number'] = int(page_number)
     context['db_sess'] = db_session.create_session()
     context['additional_arg'] = f'category={category}'
+    context['title_list_question'] = f'Результаты поиска по запросу {category}:'
     if items_que:
         context['items_que'] = items_que
         return render_template('questions_list_temp.html', context=context)
@@ -199,6 +205,21 @@ def question_page():
     context['question'] = data_tool.get_questions_id(id)
     context['db_sess'] = db_session.create_session()
     return render_template('questions_page_temp.html', context=context)
+
+
+@app.route('/profile/<int:id>', methods=['GET', 'POST'])
+def profile(id):
+    data_tool = DataBaseTool(db_session.create_session())  # tools for db
+    context = create_context(title_page=f'Профиль', href='/profile')
+
+    form_search = SearchForm()
+    if form_search.validate_on_submit() and form_search.category_search.data:
+        return redirect(f'/search?category={form_search.category_search.data}&page=1')
+
+    context['form_search'] = form_search
+    context['db_sess'] = db_session.create_session()
+    context['user'] = data_tool.get_user_id(id)
+    return render_template('profile.html', context=context)
 
 
 def main():

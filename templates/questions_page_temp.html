@@ -4,7 +4,7 @@
 <div class="row bg-light">
     {% if context.question %}
         <div class="container">
-            <div class="row">
+            <div class="row border-bottom">
                 <div class="col-md-8">
                     <h2>{{ context.question.title }}</h2>
                     <p>{{ context.question.content }}</p>
@@ -31,16 +31,20 @@
         </div>
 
         <div class="container">
-            <div class="row">
+            <div class="row border-bottom">
                 <div class="col-md-8">
-                    <form class="form-comment" action="" method="post" novalidate>
-                        {{ context.form.hidden_tag() }}
+                    {% if current_user.is_authenticated %}
+                        <form class="form-comment" action="" method="post" novalidate>
+                            {{ context.form.hidden_tag() }}
 
-                        <h5>Оставить комментарий:</h5>
+                            <h5>Оставить комментарий:</h5>
 
-                        {{ context.form.comment_text(class="form-control", rows="4") }}
-                        {{ context.form.submit(class="btn btn-primary", type="submit") }}
-                    </form>
+                            {{ context.form.comment_text(class="form-control", rows="4") }}
+                            {{ context.form.submit(class="btn btn-primary", type="submit") }}
+                        </form>
+                    {% else %}
+                        <p>Для того, чтобы оставлять комментарии надо войти в аккаунт. <a href="/login">Войти</a></p>
+                    {% endif %}
                 </div>
 
                 <div class="col-6 col-md-4">
@@ -53,14 +57,28 @@
             <div class="row">
                 <div class="col-md-8">
                     {% if context.question.comm %}
-                        <p>Комментарии:</p>
-                        <ul class="list-group list-group-light">
+                        <h4>Комментарии:</h4>
+<!--                        <ul class="list-group list-group-light">-->
+<!--                            {% for item in context.question.comm %}-->
+<!--                                <li class="list-group-item">-->
+<!--                                    {{ item.content }}-->
+<!--                                </li>-->
+<!--                            {% endfor %}-->
+<!--                        </ul>-->
+                        <div class="list-group comment-group">
                             {% for item in context.question.comm %}
-                                <li class="list-group-item">
-                                    {{ item.content }}
-                                </li>
+                                <div class="list-group-item item-comment">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ item.user.name }}</h5>
+                                        <small class="text-muted">{{ item.get_data() }}</small>
+                                    </div>
+                                    <p class="mb-1">{{ item.content }}</p>
+                                    <button type="button" class="btn btn-dark btn-sm">
+                                        Like <span class="badge text-bg-secondary">0</span>
+                                    </button>
+                                </div>
                             {% endfor %}
-                        </ul>
+                        </div>
                     {% else %}
                         <p>Комментарии отсутствуют</p>
                     {% endif %}

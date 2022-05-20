@@ -1,0 +1,12 @@
+.comment-group{
+    width: 100%;
+}
+
+.comment-group .item-comment{
+    border-radius: .15rem!important;
+}
+
+.item-comment button{
+    height: 30%;
+    width: 20%;
+}
