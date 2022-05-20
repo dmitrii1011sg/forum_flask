@@ -28,12 +28,21 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
+    """
+    Load user
+    :param user_id: id user
+    :return:
+    """
     db_sess = db_session.create_session()
     return db_sess.query(User).get(user_id)
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    """
+    Main page
+    :return: template or redirect
+    """
     context = create_context(title_page='Главная', href='/')
 
     form_search = SearchForm()
@@ -158,6 +167,10 @@ def create_question():
 
 @app.route('/search', methods=['GET', 'POST'])
 def search_page():
+    """
+    Page search by category
+    :return:
+    """
     data_tool = DataBaseTool(db_session.create_session())  # tools for db
     context = create_context(title_page='Результаты Поиска', href='/search')
 
@@ -184,6 +197,10 @@ def search_page():
 
 @app.route('/question', methods=['GET', 'POST'])
 def question_page():
+    """
+    Page for question
+    :return:
+    """
     id = request.args.get('id')
     data_tool = DataBaseTool(db_session.create_session())  # tools for db
     context = create_context(title_page=f'Вопрос №{id}', href='/question')
@@ -209,6 +226,11 @@ def question_page():
 
 @app.route('/profile/<int:id>', methods=['GET', 'POST'])
 def profile(id):
+    """
+    Page for user's profile
+    :param id:
+    :return:
+    """
     data_tool = DataBaseTool(db_session.create_session())  # tools for db
     context = create_context(title_page=f'Профиль', href='/profile')
 
