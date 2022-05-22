@@ -4,6 +4,15 @@
     padding:5% 5% 5% 5%;
 }
 
+a {
+    color: #212529;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #15171a;
+}
+
 .navbar{
     padding-top: 2%;
     padding-bottom: 2%;
@@ -21,4 +30,18 @@
 .form-search input[type="submit"] {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+
+.rule-block .container {
+    margin: 1% 0 1% 0;
+}
+
+.card-profile {
+    width: 90%;
+    padding: 2px;
+    margin: auto;
+}
+
+.card-profile *{
+    margin: 1%;
 }

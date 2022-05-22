@@ -1,4 +1,5 @@
 import os
+from gevent.pywsgi import WSGIServer
 
 import flask_login
 from dotenv import load_dotenv
@@ -195,6 +196,34 @@ def search_page():
     return render_template('questions_list_temp.html', context=context)
 
 
+@app.route('/questions/user/<int:id>', methods=['GET', 'POST'])
+def users_questions(id):
+    """
+    Page for questions users
+    :return:
+    """
+    data_tool = DataBaseTool(db_session.create_session())  # tools for db
+    context = create_context(title_page='Результаты Поиска', href=f'/questions/user/{id}')
+
+    form_search = SearchForm()
+    if form_search.validate_on_submit() and form_search.category_search.data:
+        return redirect(f'/search?category={form_search.category_search.data}&page=1')
+
+    page_number = request.args.get('page')
+    items_que = data_tool.get_questions_user_id(id)
+    items_que = data_tool.get_diapason_query(items_que, int(page_number), 20)
+
+    context['form_search'] = form_search
+    context['page_number'] = int(page_number)
+    context['db_sess'] = db_session.create_session()
+    context['title_list_question'] = f'Список вопросов пользователя:'
+    if items_que:
+        context['items_que'] = items_que
+        return render_template('questions_list_temp.html', context=context)
+
+    return render_template('questions_list_temp.html', context=context)
+
+
 @app.route('/question', methods=['GET', 'POST'])
 def question_page():
     """
@@ -242,6 +271,25 @@ def profile(id):
     context['db_sess'] = db_session.create_session()
     context['user'] = data_tool.get_user_id(id)
     return render_template('profile.html', context=context)
+
+
+@app.route('/rules', methods=['GET', 'POST'])
+def rules():
+    """
+    Page for rule
+    :param id:
+    :return:
+    """
+    data_tool = DataBaseTool(db_session.create_session())  # tools for db
+    context = create_context(title_page=f'Профиль', href='/profile')
+
+    form_search = SearchForm()
+    if form_search.validate_on_submit() and form_search.category_search.data:
+        return redirect(f'/search?category={form_search.category_search.data}&page=1')
+
+    context['form_search'] = form_search
+    context['db_sess'] = db_session.create_session()
+    return render_template('rule_temp.html', context=context)
 
 
 def main():

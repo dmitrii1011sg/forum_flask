@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="col-6 col-md-4">
-                    nothing
+
                 </div>
             </div>
         </div>
@@ -58,24 +58,17 @@
                 <div class="col-md-8">
                     {% if context.question.comm %}
                         <h4>Комментарии:</h4>
-<!--                        <ul class="list-group list-group-light">-->
-<!--                            {% for item in context.question.comm %}-->
-<!--                                <li class="list-group-item">-->
-<!--                                    {{ item.content }}-->
-<!--                                </li>-->
-<!--                            {% endfor %}-->
-<!--                        </ul>-->
                         <div class="list-group comment-group">
                             {% for item in context.question.comm %}
                                 <div class="list-group-item item-comment">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">{{ item.user.name }}</h5>
+                                        <h5 class="mb-1"><a href="/profile/{{ item.user.id }}">{{ item.user.name }}</a></h5>
                                         <small class="text-muted">{{ item.get_data() }}</small>
                                     </div>
                                     <p class="mb-1">{{ item.content }}</p>
-                                    <button type="button" class="btn btn-dark btn-sm">
+                                    <a role="button" type="button" class="btn btn-dark btn-sm" href="/like?id_comm={{item.id}}">
                                         Like <span class="badge text-bg-secondary">0</span>
-                                    </button>
+                                    </a>
                                 </div>
                             {% endfor %}
                         </div>
@@ -85,7 +78,7 @@
                 </div>
 
                 <div class="col-6 col-md-4">
-                    nothing
+
                 </div>
             </div>
         </div>

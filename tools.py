@@ -2,6 +2,7 @@ import random
 
 from data import db_session
 from data.comments import Comment
+from data.question import Question
 from db_work import DataBaseTool
 
 
@@ -21,6 +22,7 @@ def create_context(title_page='None', href='/') -> dict:
         'items_que': False,
         'question': False,
         'Comment': Comment,
+        'Question': Question,
         'randint': random.randint,
         'href': href,
         'category_popular': category_popular
