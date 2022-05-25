@@ -2,8 +2,10 @@ import random
 
 from data import db_session
 from data.comments import Comment
+from data.like_favorite_user import Like
 from data.question import Question
 from db_work import DataBaseTool
+from sqlalchemy import and_
 
 
 def create_context(title_page='None', href='/') -> dict:
@@ -23,6 +25,8 @@ def create_context(title_page='None', href='/') -> dict:
         'question': False,
         'Comment': Comment,
         'Question': Question,
+        'Like': Like,
+        'and_': and_,
         'randint': random.randint,
         'href': href,
         'category_popular': category_popular

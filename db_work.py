@@ -5,6 +5,7 @@ from sqlalchemy import and_
 from data.avatar_user import Avatar
 from data.category import Category
 from data.comments import Comment
+from data.like_favorite_user import Like
 from data.question import Question
 from data.users import User
 
@@ -86,6 +87,13 @@ class DataBaseTool:
     def get_questions_user_id(self, user_id):
         questions = self.db_sess.query(Question).filter(Question.user_id == user_id)
         return questions
+
+    def like_comment(self, user_id, comm_id):
+        like = self.db_sess.query(Like).filter(and_(Like.user_id == user_id, Like.comm_id == comm_id)).first()
+        if not like:
+            like = Like(user_id=user_id, comm_id=comm_id)
+            self.db_sess.add(like)
+            self.db_sess.commit()
 
     def get_user_id(self, id):
         """

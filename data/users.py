@@ -21,6 +21,7 @@ class User(SqlAlchemyBase, UserMixin):
     que = orm.relationship("Question", back_populates='user')
     comm = orm.relationship("Comment", back_populates='user')
     like = orm.relationship("Like", back_populates='user')
+    # favorite = orm.relationship("Favorite", back_populates='user')
     avatar = orm.relationship("Avatar", back_populates='user')
 
     def set_password(self, password):

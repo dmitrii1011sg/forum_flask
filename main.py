@@ -155,6 +155,13 @@ def edit_user():
     return render_template('edit_profile.html', context=context)
 
 
+@app.route('/like/<int:que_id>/<int:comm_id>', methods=['GET', 'POST'])
+def like(que_id, comm_id):
+    data_tool = DataBaseTool(db_session.create_session())  # tools for db
+    data_tool.like_comment(user_id=flask_login.current_user.id, comm_id=comm_id)
+    return redirect(f'/question?id={que_id}')
+
+
 @app.route('/logout')
 @login_required
 def logout():
