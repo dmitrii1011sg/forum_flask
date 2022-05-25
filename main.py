@@ -12,6 +12,7 @@ from data.users import User
 from db_work import DataBaseTool, created_diaposon
 from flask_forms.comment_form import CommentForm
 from flask_forms.create_question_form import QuestionForm
+from flask_forms.edit_profile import EditProfileForm
 from flask_forms.login_form import LoginUserForm
 from flask_forms.register_form import RegisterForm
 from flask_forms.search_form import SearchForm
@@ -130,6 +131,28 @@ def regist_user():
             context['message'] = f'Пользователь с логином {form.login.data}, уже существует'
             return render_template('regist_page.html', context=context)
     return render_template('regist_page.html', context=context)
+
+@app.route('/edit-profile', methods=['GET', 'POST'])
+def edit_user():
+    """
+    Page for signup users
+    :return: template or redirect
+    """
+    data_tool = DataBaseTool(db_session.create_session())   # tools for db
+    context = create_context(title_page='Регистрация', href='/register')    # param for templates
+
+    form_search = SearchForm()  # search
+    if form_search.validate_on_submit() and form_search.category_search.data:
+        return redirect(f'/search?category={form_search.category_search.data}&page=1')
+
+    form = EditProfileForm()   # create signup form
+    context['form'], context['form_search'] = form, form_search
+
+    if form.validate_on_submit():   # form validate on submit
+        data_tool.update_user(flask_login.current_user.id,
+                              {'name': form.name.data, 'lastname': form.lastname.data, 'about': form.about.data})
+        return redirect(f'/profile/{flask_login.current_user.id}')
+    return render_template('edit_profile.html', context=context)
 
 
 @app.route('/logout')

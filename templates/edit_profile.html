@@ -1,0 +1,22 @@
+{% extends "base_temp.html" %}
+
+{% block content %}
+<div class="row bg-light">
+      <form class="form-signup" action="" method="POST" enctype="multipart/form-data">
+            {{ context.form.hidden_tag() }}
+            <img class="mb-4" src="{{ url_for('static', filename='img/logo.png') }}" alt="" width="72" height="72">
+            <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+            {% if context.message %}
+                  <div class="alert alert-dark" role="alert">
+                    {{ context.message }}
+                  </div>
+            {% endif %}
+
+            {{ context.form.name(type="name", class="form-control", placeholder=current_user.name) }}
+            {{ context.form.lastname(type="lastname", class="form-control", placeholder=current_user.lastname) }}
+            {{ context.form.about(type="about", class="md-textarea form-control", rows="3", placeholder=current_user.about) }}
+
+            {{ context.form.submit(class="btn btn-lg btn-primary btn-block", type="submit") }}
+      </form>
+</div>
+{% endblock %}

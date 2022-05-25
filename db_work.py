@@ -60,6 +60,17 @@ class DataBaseTool:
             return True
         return False
 
+    def update_user(self, id_user, context):
+        user = self.db_sess.query(User).filter(User.id == id_user).first()
+        dict_for_update = {}
+        for param in context:
+            if context[param]:
+                dict_for_update[param] = context[param]
+            else:
+                dict_for_update[param] = user.get_data()[param]
+        self.db_sess.query(User).filter(User.id == id_user).update(dict_for_update)
+        self.db_sess.commit()
+
     def check_user(self, login, password):
         """
         User existence check

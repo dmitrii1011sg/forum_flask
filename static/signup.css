@@ -32,6 +32,10 @@
   border-top-right-radius: 0;
 }
 
+input[type="file"] {
+  margin-bottom: 10px;
+}
+
 .form-signup textarea[type="about"] {
   margin-bottom: 10px;
 }
