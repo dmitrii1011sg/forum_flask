@@ -120,8 +120,10 @@ def regist_user():
         if form.password.data != form.password_again.data:  # validate password
             context['message'] = 'Пароли не совпадают'
             return render_template('regist_page.html', context=context)
+        file = request.files['file']
         user_info = data_tool.create_user(name=form.name.data, lastname=form.lastname.data,
-                                          login=form.login.data, about=form.about.data, password=form.password.data)
+                                          login=form.login.data, about=form.about.data, password=form.password.data,
+                                          file=file)
         if user_info:
             return redirect("/login")
         else:

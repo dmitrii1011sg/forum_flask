@@ -1,9 +1,14 @@
+import os
+
 from sqlalchemy import and_
 
+from data.avatar_user import Avatar
 from data.category import Category
 from data.comments import Comment
 from data.question import Question
 from data.users import User
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 
 def created_diaposon(num_page, col_el, col_el_page):
@@ -17,6 +22,11 @@ def created_diaposon(num_page, col_el, col_el_page):
     return col_el - (col_el_page * num_page), col_el - (col_el_page * (num_page - 1))
 
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+
 class DataBaseTool:
     """
     Tools for work with database
@@ -25,7 +35,7 @@ class DataBaseTool:
         self.db_sess = db_sess
 
     # user tools
-    def create_user(self, name, lastname, login, about, password) -> bool:
+    def create_user(self, name, lastname, login, about, password, file=False) -> bool:
         """
         Create new user
         :param name: name user
@@ -37,7 +47,12 @@ class DataBaseTool:
         """
         user_login = self.db_sess.query(User).filter(User.login == login)
         if not user_login.first():
-            user = User(name=name, lastname=lastname, login=login, about=about)
+            id_image = 1
+            if file and allowed_file(file.filename):
+                id_image = self.db_sess.query(Avatar).order_by(Avatar.id.desc()).first().id + 1
+                file.save(os.path.join('static/image_avatars/', f'{id_image}.png'))
+                self.db_sess.add(Avatar())
+            user = User(name=name, lastname=lastname, login=login, about=about, avatar_id=id_image)
             user.set_password(password)
             self.db_sess.add(user)
             self.db_sess.commit()

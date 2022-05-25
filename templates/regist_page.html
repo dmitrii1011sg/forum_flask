@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="row bg-light">
-      <form class="form-signup" action="" method="post" novalidate>
+      <form class="form-signup" action="" method="POST" enctype="multipart/form-data">
             {{ context.form.hidden_tag() }}
             <img class="mb-4" src="{{ url_for('static', filename='img/logo.png') }}" alt="" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
@@ -15,7 +15,7 @@
 
             {{ context.form.name(type="name", class="form-control", placeholder="Имя") }}
             {{ context.form.lastname(type="lastname", class="form-control", placeholder="Фамилия") }}
-
+            <input type="file" name="file">
             {{ context.form.about(type="about", class="md-textarea form-control", rows="3") }}
 
             {{ context.form.password(type="password", class="password", class="form-control", placeholder="Пароль") }}
