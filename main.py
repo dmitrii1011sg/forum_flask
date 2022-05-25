@@ -1,6 +1,4 @@
 import os
-from gevent.pywsgi import WSGIServer
-
 import flask_login
 from dotenv import load_dotenv
 from flask import Flask, render_template, redirect, request
