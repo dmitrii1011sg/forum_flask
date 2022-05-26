@@ -15,8 +15,8 @@
 
             {{ context.form.name(type="name", class="form-control", placeholder="Имя") }}
             {{ context.form.lastname(type="lastname", class="form-control", placeholder="Фамилия") }}
-            <label type="button" role="button" for="formFile" class="file">Загрузить аватар пользователя</label>
-            <input class="form-control " type="file" id="formFile">
+            <label type="button" role="button" class="file">Загрузить аватар пользователя</label>
+            {{ context.form.avatar}}
             {{ context.form.about(type="about", class="md-textarea form-control", rows="3") }}
 
             {{ context.form.password(type="password", class="password", class="form-control", placeholder="Пароль") }}

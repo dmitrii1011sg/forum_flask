@@ -5,7 +5,7 @@ from sqlalchemy import and_
 from data.avatar_user import Avatar
 from data.category import Category
 from data.comments import Comment
-from data.like_favorite_user import Like
+from data.like_favorite_user import Like, Favorite
 from data.question import Question
 from data.users import User
 
@@ -49,9 +49,9 @@ class DataBaseTool:
         user_login = self.db_sess.query(User).filter(User.login == login)
         if not user_login.first():
             id_image = 1
-            if file and allowed_file(file.filename):
+            if file:
+                print(1)
                 id_image = self.db_sess.query(Avatar).order_by(Avatar.id.desc()).first().id + 1
-                file.save(os.path.join('static/image_avatars/', f'{id_image}.png'))
                 self.db_sess.add(Avatar())
             user = User(name=name, lastname=lastname, login=login, about=about, avatar_id=id_image)
             user.set_password(password)
@@ -94,6 +94,15 @@ class DataBaseTool:
             like = Like(user_id=user_id, comm_id=comm_id)
             self.db_sess.add(like)
             self.db_sess.commit()
+
+    def add_favorite_questions(self, user_id, que_id):
+        favorite = self.db_sess.query(Favorite).filter(and_(Favorite.user_id == user_id, Favorite.que_id == que_id)).first()
+        if not favorite:
+            favorite = Favorite(user_id=user_id, que_id=que_id)
+            self.db_sess.add(favorite)
+            self.db_sess.commit()
+        elif favorite:
+            self.db_sess.query(Favorite).filter(and_(Favorite.user_id == user_id, Favorite.que_id == que_id)).delete()
 
     def get_user_id(self, id):
         """
@@ -167,6 +176,14 @@ class DataBaseTool:
             items_query = items_query.order_by(Question.id.desc())
         return items_query
 
+    def get_questions_favorite_user(self, user_id):
+        favorite = self.db_sess.query(Favorite)
+        favorite_mark = favorite.filter(Favorite.user_id == user_id).order_by(Favorite.id.desc()).all()
+        questions = list()
+        for mark in favorite_mark:
+            questions.append(self.db_sess.query(Question).filter(Question.id == mark.que_id).first())
+        return questions
+
     def get_questions_id(self, id):
         """
         Get questions by category
@@ -175,6 +192,29 @@ class DataBaseTool:
         """
         question = self.db_sess.query(Question).filter(Question.id == id).first()
         return question
+
+    def update_question(self, que_id, context):
+        question = self.db_sess.query(Question).filter(Question.id == que_id).first()
+        dict_for_update = {}
+        for param in context:
+            if context[param]:
+                dict_for_update[param] = context[param]
+            else:
+                dict_for_update[param] = question.get_data()[param]
+        self.db_sess.query(Question).filter(Question.id == que_id).update(dict_for_update)
+        self.db_sess.commit()
+
+    def close_question(self, que_id):
+        question = self.db_sess.query(Question).filter(Question.id == que_id).first()
+        question.close = True
+        self.db_sess.add(question)
+        self.db_sess.commit()
+
+    def open_question(self, que_id):
+        question = self.db_sess.query(Question).filter(Question.id == que_id).first()
+        question.close = False
+        self.db_sess.add(question)
+        self.db_sess.commit()
 
     # comments tools
     def create_comment(self, user_id, question_id, content):

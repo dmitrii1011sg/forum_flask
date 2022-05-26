@@ -17,8 +17,15 @@ class Question(SqlAlchemyBase):
     category_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("category.id"))
     user = orm.relationship("User", back_populates='que')
     comm = orm.relationship("Comment", back_populates='que', cascade="all, delete, delete-orphan")
+    favorite = orm.relationship("Favorite", back_populates='que')
     category = orm.relationship('Category', back_populates='questions')
 
     def get_data(self):
         return self.created_date.strftime("%m/%d/%Y")
+
+    def get_info(self):
+        return {
+            'title': self.title,
+            'content': self.content
+        }
 

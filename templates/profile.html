@@ -24,7 +24,7 @@
          <div class="d-flex justify-content-center text-center">
             <div style="width:100%;">
                <p class="mb-1 h5">{{context.db_sess.query(context.Question).filter(context.Question.user_id == context.user.id).count()}}</p>
-               <p class="small text-muted mb-0">Вопросов</p>
+               <p class="small text-muted mb-0"><a href="/questions/user/{{context.user.id}}?page=1">Вопросов</a></p>
             </div>
             <div class="px-3" style="width:100%;">
                <p class="mb-1 h5">{{context.db_sess.query(context.Comment).filter(context.Comment.user_id == context.user.id).count()}}</p>

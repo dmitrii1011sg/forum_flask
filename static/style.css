@@ -1,7 +1,7 @@
 .row{
     margin: 1% 0 1% 0;
     border-radius: .25rem!important;
-    padding:5% 5% 5% 5%;
+    padding:4% 4% 4% 4%;
 }
 
 a {
@@ -45,3 +45,17 @@ a:hover {
 .card-profile *{
     margin: 1%;
 }
+
+.str-tool{
+    margin: 10px 0 10px 0;
+}
+
+.str-tool button{
+
+}
+
+.str-tool button:first-child {
+
+}
+
+

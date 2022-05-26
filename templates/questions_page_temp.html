@@ -7,6 +7,49 @@
             <div class="row border-bottom">
                 <div class="col-md-8">
                     <h2>{{ context.question.title }}</h2>
+                    <div class="btn-group str-tool" role="group" aria-label="Basic example">
+
+                        <button onclick="window.location.href = '/favorite/{{context.question.id}}';" type="button" class="btn btn-dark">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-star" viewBox="0 0 16 16">
+                                <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098L7.84 4.1z"/>
+                                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                            </svg>
+                        </button>
+
+                        <button onclick="window.location.href = '#comment';" type="button" class="btn btn-dark">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-fill" viewBox="0 0 16 16">
+                                <path d="M14 0a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
+                            </svg>
+                        </button>
+
+                        <button type="button" class="btn btn-dark">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-reply-fill" viewBox="0 0 16 16">
+                                <path d="M5.921 11.9 1.353 8.62a.719.719 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z"/>
+                            </svg>
+                        </button>
+                        {% if context.question.user_id == current_user.id %}
+                            <button onclick="window.location.href = '/edit-question/{{context.question.id}}';" type="button" class="btn btn-dark">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                </svg>
+                            </button>
+                            {% if not context.question.close %}
+                                <button onclick="window.location.href = '/close-question/{{context.question.id}}';" type="button" class="btn btn-dark">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock-fill" viewBox="0 0 16 16">
+                                        <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2z"/>
+                                    </svg>
+                                </button>
+                            {% else %}
+                                <button onclick="window.location.href = '/open-question/{{context.question.id}}';" type="button" class="btn btn-dark">
+                                    <svg onclick="window.location.href = '/open-question/{{context.question.id}}';" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
+                                        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                                    </svg>
+                                </button>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+
                     <p>{{ context.question.content }}</p>
                 </div>
 
@@ -33,17 +76,21 @@
         <div class="container">
             <div class="row border-bottom">
                 <div class="col-md-8">
-                    {% if current_user.is_authenticated %}
-                        <form class="form-comment" action="" method="post" novalidate>
-                            {{ context.form.hidden_tag() }}
+                    {% if not context.question.close %}
+                        {% if current_user.is_authenticated %}
+                            <form class="form-comment" action="" method="post" novalidate>
+                                {{ context.form.hidden_tag() }}
 
-                            <h5>Оставить комментарий:</h5>
+                                <h5>Оставить комментарий:</h5>
 
-                            {{ context.form.comment_text(class="form-control", rows="4") }}
-                            {{ context.form.submit(class="btn btn-primary", type="submit") }}
-                        </form>
+                                {{ context.form.comment_text(class="form-control", rows="4") }}
+                                {{ context.form.submit(class="btn btn-primary", type="submit") }}
+                            </form>
+                        {% else %}
+                            <p>Для того, чтобы оставлять комментарии надо войти в аккаунт. <a href="/login">Войти</a></p>
+                        {% endif %}
                     {% else %}
-                        <p>Для того, чтобы оставлять комментарии надо войти в аккаунт. <a href="/login">Войти</a></p>
+                        <p>Вы не можете оставлять комментарии. Вопрос закрыт автором.</p>
                     {% endif %}
                 </div>
 
@@ -57,7 +104,7 @@
             <div class="row">
                 <div class="col-md-8">
                     {% if context.question.comm %}
-                        <h4>Комментарии:</h4>
+                        <h4 id="comment">Комментарии:</h4>
                         <div class="list-group comment-group">
                             {% for item in context.question.comm %}
                                 <div class="list-group-item item-comment">

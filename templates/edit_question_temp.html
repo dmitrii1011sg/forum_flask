@@ -1,0 +1,20 @@
+{% extends "base_temp.html" %}
+
+{% block content %}
+<div class="row bg-light">
+      {% if current_user.id == context.question.user_id %}
+            <form class="form-create-question" action="" method="post" novalidate>
+                  {{ context.form.hidden_tag() }}
+                  <img class="mb-4" src="{{ url_for('static', filename='img/logo.png') }}" alt="" width="72" height="72">
+                  <h1 class="h3 mb-3 font-weight-normal">Редактирование вопроса</h1>
+                  {{ context.form.title_question(type="title_question", class="form-control", placeholder=context.question.title) }}
+
+                  {{ context.form.text_question(type="text_question", class="md-textarea form-control", rows="3", placeholder=context.question.content) }}
+
+                  {{ context.form.submit(class="btn btn-lg btn-primary btn-block", type="submit") }}
+            </form>
+      {% else %}
+            <p>Вы не являетесь создателем этого вопроса.</p>
+      {% endif %}
+</div>
+{% endblock %}
