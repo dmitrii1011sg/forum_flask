@@ -81,6 +81,16 @@
    ```sh
    pip install -r requirements.txt
    ```
+   
+3. Создадите директорию db в корневой папке проекта
+   ```sh
+   +---forum_flask
+   |  +---data
+   |  +---db
+   |  +---flask_form
+   |  +---static
+   |  +---templates
+   ```
 
 <p align="right">(<a href="#top">Наверх</a>)</p>
 
