@@ -56,11 +56,12 @@
 
 
 
-### Модули 
+### Что использовалось при создании проекта 
 
 * [flask](https://pypi.org/project/Flask/)
 * [Flask-WTF](https://pypi.org/project/Flask-WTF/)
 * [SQLAlchemist](https://pypi.org/project/SQLAlchemy/)
+* [Bootstrap](https://getbootstrap.com)
 
 <p align="right">(<a href="#top">Наверх</a>)</p>
 
@@ -81,16 +82,7 @@
    ```sh
    pip install -r requirements.txt
    ```
-   
-3. Создадите директорию db в корневой папке проекта
-   ```sh
-   +---forum_flask
-   |  +---data
-   |  +---db
-   |  +---flask_form
-   |  +---static
-   |  +---templates
-   ```
+
 
 <p align="right">(<a href="#top">Наверх</a>)</p>
 

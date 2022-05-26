@@ -132,7 +132,8 @@ def regist_user():
                                           login=form.login.data,
                                           about=form.about.data,
                                           password=form.password.data,
-                                          file=True)
+                                          file=file)
+
         if user_info:
             if file:
                 db_sess = db_session.create_session()
@@ -377,7 +378,7 @@ def question_page():
 
     form = CommentForm()  # create questions form
 
-    if form.validate_on_submit():  # form validate on submit
+    if form.validate_on_submit() and form.comment_text.data:  # form validate on submit
         data_tool.create_comment(content=form.comment_text.data,
                                  user_id=flask_login.current_user.id,
                                  question_id=id)
