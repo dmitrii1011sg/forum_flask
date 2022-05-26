@@ -50,7 +50,6 @@ class DataBaseTool:
         if not user_login.first():
             id_image = 1
             if file:
-                print(1)
                 id_image = self.db_sess.query(Avatar).order_by(Avatar.id.desc()).first().id + 1
                 self.db_sess.add(Avatar())
             user = User(name=name, lastname=lastname, login=login, about=about, avatar_id=id_image)

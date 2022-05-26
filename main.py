@@ -4,12 +4,10 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, redirect, request
 from flask_login import LoginManager, login_required, logout_user, current_user
 from sqlalchemy import and_
-from werkzeug.utils import secure_filename
 
 from data import db_session
 from data.avatar_user import Avatar
 from data.question import Question
-from data.category import Category
 from data.users import User
 from db_work import DataBaseTool, created_diaposon
 from flask_forms.comment_form import CommentForm
@@ -128,7 +126,7 @@ def regist_user():
         if form.password.data != form.password_again.data:  # validate password
             context['message'] = 'Пароли не совпадают'
             return render_template('regist_page.html', context=context)
-
+        file = True if form.avatar.data else False
         user_info = data_tool.create_user(name=form.name.data,
                                           lastname=form.lastname.data,
                                           login=form.login.data,
@@ -136,10 +134,11 @@ def regist_user():
                                           password=form.password.data,
                                           file=True)
         if user_info:
-            db_sess = db_session.create_session()
-            last_image = db_sess.query(Avatar).order_by(Avatar.id.desc())
-            id_image = last_image.first().id
-            form.avatar.data.save('static/image_avatars/' + f'{id_image}.png')
+            if file:
+                db_sess = db_session.create_session()
+                last_image = db_sess.query(Avatar).order_by(Avatar.id.desc())
+                id_image = last_image.first().id
+                form.avatar.data.save('static/image_avatars/' + f'{id_image}.png')
             return redirect("/login")
         else:
             context['message'] = f'Пользователь с логином {form.login.data}, уже существует'
