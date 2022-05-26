@@ -20,12 +20,12 @@
                         <tr>
                             <th scope="row">{{ question.id }}</th>
                             <td><a href="/question?id={{ question.id }}">{{ question.title }}</a></td>
-                            <td>{{ question.user.name }}</td>
+                            <td><a href="/profile/{{ question.user.id }}">{{ question.user.name }}</a></td>
                             <td>
                                 {% if question.category != None %}
                                 <span class="badge badge-dark">{{ question.category.name }}</span>
                                 {% else %}
-                                    <p>Нет тегов</p>
+                                    <p>Нет Категории</p>
                                 {% endif %}
                             </td>
                             <td>{{ context.db_sess.query(context.Comment).filter(context.Comment.que_id == question.id).count() }}</td>

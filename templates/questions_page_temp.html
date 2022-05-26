@@ -50,7 +50,11 @@
                         {% endif %}
                     </div>
 
-                    <p>{{ context.question.content }}</p>
+                    <p>
+                        {% for string in context.question.content.split("\r\n") %}
+                            {{ string }} </br>
+                        {% endfor %}
+                    </p>
                 </div>
 
                 <div class="col-6 col-md-4">
@@ -63,7 +67,7 @@
                               {{ context.db_sess.query(context.Comment).filter(context.Comment.que_id == context.question.id).count() }}
                           </li>
                           <li class="list-group-item">
-                              Создатель: {{ context.question.user.name }}
+                              Создатель: <a href="/profile/{{ context.question.user.id }}">{{ context.question.user.name }}</a>
                           </li>
                           <li class="list-group-item">
                               Дата создания: {{ context.question.get_data() }}
@@ -112,7 +116,12 @@
                                         <h5 class="mb-1"><a href="/profile/{{ item.user.id }}">{{ item.user.name }}</a></h5>
                                         <small class="text-muted">{{ item.get_data() }}</small>
                                     </div>
-                                    <p class="mb-1">{{ item.content }}</p>
+                                    <p class="mb-1">
+                                        {% for string in item.content.split("\r\n") %}
+                                            {{ string }} </br>
+                                        {% endfor %}
+<!--                                        {{ item.content }}-->
+                                    </p>
                                     <a role="button" type="button" href="/like/{{context.question.id}}/{{item.id}}" class="btn btn-dark btn-sm">
                                         Like
                                         <span class="badge text-bg-secondary">

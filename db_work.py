@@ -95,7 +95,8 @@ class DataBaseTool:
             self.db_sess.commit()
 
     def add_favorite_questions(self, user_id, que_id):
-        favorite = self.db_sess.query(Favorite).filter(and_(Favorite.user_id == user_id, Favorite.que_id == que_id)).first()
+        favorite = self.db_sess.query(Favorite).filter(and_(Favorite.user_id == user_id,
+                                                            Favorite.que_id == que_id)).first()
         if not favorite:
             favorite = Favorite(user_id=user_id, que_id=que_id)
             self.db_sess.add(favorite)
@@ -245,10 +246,3 @@ class DataBaseTool:
             if diapason[0] <= ind < diapason[1]:
                 question_list.append(el)
         return question_list
-
-
-
-
-
-
-
